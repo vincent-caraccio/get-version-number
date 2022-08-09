@@ -10,6 +10,15 @@ inputs:
   repo:
     description: 'Repository name'
     required: true
+  major:
+    description: 'Major version (if override needed)'
+    required: false
+  minor:
+    description: 'Minor version (if override needed)'
+    required: false
+  patch:
+    description: 'Patch version (if override needed)'
+    required: false
 runs:
   using: 'node16'
   main: 'index.js'
