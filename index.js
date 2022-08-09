@@ -23,6 +23,9 @@ const github = require('@actions/github');
             a[2] - b[2] :
             a[1] - b[1] :
           a[0] - b[0]);
+    console.log(data);
+    console.log(data.map(r => (r.tag_name.match(/\d+\.\d+\.\d+/) || [])[0]));
+    console.log(sortedVersions);
     if (sortedVersions.length > 0) {
       const lastVersion = sortedVersions[sortedVersions.length - 1];
       const nextVersion = [
