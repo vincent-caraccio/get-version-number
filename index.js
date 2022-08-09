@@ -12,12 +12,9 @@ const github = require('@actions/github');
     const minor = core.getInput('minor');
     const patch = core.getInput('patch');
     const octokit = github.getOctokit(token);
-    const { data } = await octokit.request(
-      'GET /repos/{owner}/{repo}/actions/artifacts',
-      { owner, repo }
-    );
-    const sortedVersions = data.artifacts
-      .map(a => (a.name.match(/\d+\.\d+\.\d+/) || [])[0])
+    const { data } = await octokit.request('GET /repos/{owner}/{repo}/releases', { owner, repo });
+    const sortedVersions = data
+      .map(r => (r.tag_name.match(/\d+\.\d+\.\d+/) || [])[0])
       .filter(v => !!v)
       .map(v => v.split('.').map(t => parseInt(t)))
       .sort((a, b) =>
