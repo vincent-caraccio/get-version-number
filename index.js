@@ -32,7 +32,7 @@ const github = require('@actions/github');
       ];
       core.exportVariable('RELEASE_VERSION', nextVersion.join('.'));
     } else {
-      core.exportVariable('RELEASE_VERSION', '0.0.0');
+      core.exportVariable('RELEASE_VERSION', '0.0.1');
     }
   } catch (error) {
     core.setFailed(error.message);
