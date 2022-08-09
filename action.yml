@@ -1,0 +1,15 @@
+name: 'Get Version Number'
+description: 'Get the next release version number'
+inputs:
+  token:
+    description: 'Github token'
+    required: true
+  owner:
+    description: 'Repository owner'
+    required: true
+  repo:
+    description: 'Repository name'
+    required: true
+runs:
+  using: 'node16'
+  main: 'index.js'
