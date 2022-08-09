@@ -1,6 +1,7 @@
 # Get version number
 
-This action extracts the version of the latest published artifact and increments it.
+This action extracts the version of the latest release and increments it.
+Result is stored in a environment variable named RELEASE_VERSION.
 
 ## Inputs
 
@@ -15,6 +16,18 @@ This action extracts the version of the latest published artifact and increments
 ## `repo`
 
 **Required** The repository name to get the artifacts from.
+
+## `major`
+
+Override for the major version
+
+## `minor`
+
+Override for the minor version
+
+## `patch`
+
+Override for the patch version
 
 ## Example usage
 
