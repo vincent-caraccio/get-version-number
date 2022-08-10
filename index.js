@@ -6,13 +6,12 @@ const github = require('@actions/github');
 (async function () {
   try {
     const token = core.getInput('token');
-    const owner = core.getInput('owner');
-    const repo = core.getInput('repo');
+    const repository = core.getInput('repository');
     const major = core.getInput('major');
     const minor = core.getInput('minor');
     const patch = core.getInput('patch');
     const octokit = github.getOctokit(token);
-    const { data } = await octokit.request('GET /repos/{owner}/{repo}/releases', { owner, repo });
+    const { data } = await octokit.request('GET /repos/{repository}/releases', { repository });
     const sortedVersions = data
       .map(r => (r.tag_name.match(/\d+\.\d+\.\d+/) || [])[0])
       .filter(v => !!v)
