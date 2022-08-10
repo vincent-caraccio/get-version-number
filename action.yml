@@ -4,7 +4,7 @@ inputs:
   token:
     description: 'Github token'
     required: true
-  owner:
+  repository:
     description: 'Repository (example: my-org/my-repo-name)'
     required: true
   major:
