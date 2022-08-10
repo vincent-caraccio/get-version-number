@@ -30,6 +30,6 @@ Override for the patch version
 ```
 uses: vincent-caraccio/get-version-number@v0.0.1
 with:
-  token: ${{ secrets.GITHUB_TOKEN }}
-  repository: ${{ env.GITHUB_REPOSITORY }}
+  token: ${{ secrets.TOKEN }} # token should have read access to releases
+  repository: ${{ github.repository }}
 ```
