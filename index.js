@@ -12,19 +12,10 @@ const github = require('@actions/github');
     const minor = core.getInput('minor');
     const patch = core.getInput('patch');
     const octokit = github.getOctokit(token);
-    const { data } = await octokit.request('GET /repos/{owner}/{repo}/releases', { owner, repo });
-    const sortedVersions = data
-      .map(r => (r.tag_name.match(/\d+\.\d+\.\d+/) || [])[0])
-      .filter(v => !!v)
-      .map(v => v.split('.').map(t => parseInt(t)))
-      .sort((a, b) =>
-        a[0] === b[0] ?
-          a[1] === b[1] ?
-            a[2] - b[2] :
-            a[1] - b[1] :
-          a[0] - b[0]);
-    if (sortedVersions.length > 0) {
-      const lastVersion = sortedVersions[sortedVersions.length - 1];
+    const { data } = await octokit.request('GET /repos/{owner}/{repo}/releases/latest', { owner, repo });
+    const tag = data ? data.tag_name : '';
+    if (tag && tag.match(/\d+\.\d+\.\d+/)) {
+      const lastVersion = tag.split('.').map(t => parseInt(t));
       const nextVersion = [
         major || lastVersion[0],
         minor || lastVersion[1],
