@@ -26,6 +26,10 @@ const github = require('@actions/github');
       core.exportVariable('RELEASE_VERSION', '0.0.1');
     }
   } catch (error) {
-    core.setFailed(error.message);
+    if (error.message === 'Not Found') {
+      core.exportVariable('RELEASE_VERSION', '0.0.1');
+    } else {
+      core.setFailed(error.message);
+    }
   }
 })().catch(error => core.setFailed(error.message));
