@@ -20,7 +20,7 @@ const github = require('@actions/github');
       const lastVersion = tag.split('.').map(t => parseInt(t));
       nextVersion[0] = major || lastVersion[0];
       nextVersion[1] = minor || lastVersion[1];
-      nextVersion[2] = patch || lastVersion[2];
+      nextVersion[2] = patch || lastVersion[2] + 1;
     }
     exportVersionToEnv(nextVersion);
   } catch (error) {

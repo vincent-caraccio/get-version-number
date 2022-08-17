@@ -28,7 +28,7 @@ Override for the patch version
 ## Example usage
 
 ```
-uses: vincent-caraccio/get-version-number@v1.0.9
+uses: vincent-caraccio/get-version-number@v1.0.10
 with:
   token: ${{ secrets.TOKEN }} # token should have read access to releases
   repository: ${{ github.repository }}
