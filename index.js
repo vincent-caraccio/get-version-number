@@ -19,15 +19,21 @@ const github = require('@actions/github');
     if (tag && tag.match(/\d+\.\d+\.\d+/)) {
       const lastVersion = tag.split('.').map(t => parseInt(t));
       nextVersion[0] = major || lastVersion[0];
-      nextVersion[1] = major || lastVersion[1];
-      nextVersion[2] = major || lastVersion[2];
+      nextVersion[1] = minor || lastVersion[1];
+      nextVersion[2] = patch || lastVersion[2];
     }
-    core.exportVariable('RELEASE_VERSION', nextVersion.join('.'));
+    exportVersionToEnv(nextVersion);
   } catch (error) {
     if (error.message === 'Not Found') {
-      core.exportVariable('RELEASE_VERSION', nextVersion.join('.'));
+      exportVersionToEnv(nextVersion);
     } else {
       core.setFailed(error.message);
     }
   }
 })().catch(error => core.setFailed(error.message));
+
+function exportVersionToEnv(nextVersion) {
+  const version = nextVersion.join('.');
+  core.exportVariable('RELEASE_VERSION', version);
+  console.log(`Exporting environment variable RELEASE_VERSION=${version}`);
+}
