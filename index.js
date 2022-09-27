@@ -15,9 +15,7 @@ const github = require('@actions/github');
     const [owner, repo] = repository.split('/');
     const octokit = github.getOctokit(token);
     const { data } = await octokit.request('GET /repos/{owner}/{repo}/releases', { owner, repo });
-    console.log(`Found following tags: ${data.map(r => r.tag_name)}`);
     const lastVersion = getLatestTag(data);
-    console.log(`lastVersion: ${lastVersion}`);
     if (lastVersion) {
       nextVersion[0] = major || lastVersion[0];
       nextVersion[1] = minor || lastVersion[1];
@@ -44,7 +42,7 @@ function getLatestTag(releases = []) {
           a[2] - b[2] :
           a[1] - b[1] :
         a[0] - b[0]);
-  return sortedVersions.length ? sortedVersions[0] : undefined;
+  return sortedVersions.length ? sortedVersions[sortedVersions.length - 1] : undefined;
 }
 
 function exportVersionToEnv(nextVersion) {
