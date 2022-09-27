@@ -14,10 +14,9 @@ const github = require('@actions/github');
     const repository = core.getInput('repository');
     const [owner, repo] = repository.split('/');
     const octokit = github.getOctokit(token);
-    const { data } = await octokit.request('GET /repos/{owner}/{repo}/releases/latest', { owner, repo });
-    const tag = data ? data.tag_name : '';
-    if (tag && tag.match(/\d+\.\d+\.\d+/)) {
-      const lastVersion = tag.split('.').map(t => parseInt(t));
+    const { data } = await octokit.request('GET /repos/{owner}/{repo}/releases', { owner, repo });
+    const lastVersion = getLatestTag(data);
+    if (lastVersion) {
       nextVersion[0] = major || lastVersion[0];
       nextVersion[1] = minor || lastVersion[1];
       nextVersion[2] = patch || lastVersion[2] + 1;
@@ -31,6 +30,20 @@ const github = require('@actions/github');
     }
   }
 })().catch(error => core.setFailed(error.message));
+
+function getLatestTag(releases = []) {
+  const sortedVersions = releases
+    .map(r => (r.tag_name.match(/\d+\.\d+\.\d+/) || [])[0])
+    .filter(v => !!v)
+    .map(v => v.split('.').map(t => parseInt(t)))
+    .sort((a, b) =>
+      a[0] === b[0] ?
+        a[1] === b[1] ?
+          a[2] - b[2] :
+          a[1] - b[1] :
+        a[0] - b[0]);
+  return sortedVersions.length ? sortedVersions[0] : undefined;
+}
 
 function exportVersionToEnv(nextVersion) {
   const version = nextVersion.join('.');
