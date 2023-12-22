@@ -17,9 +17,11 @@ const github = require('@actions/github');
     const { data } = await octokit.request('GET /repos/{owner}/{repo}/releases', { owner, repo });
     const lastVersion = getLatestTag(data);
     if (lastVersion) {
+      const isNewMajor = major && lastVersion[0] && major > lastVersion[0];
+      const isNewMinor = minor && lastVersion[1] && minor > lastVersion[1];
       nextVersion[0] = major || lastVersion[0];
-      nextVersion[1] = minor || lastVersion[1];
-      nextVersion[2] = patch || lastVersion[2] + 1;
+      nextVersion[1] = isNewMajor ? 0 : (minor || lastVersion[1]);
+      nextVersion[2] = isNewMajor || isNewMinor ? 0 : (patch || lastVersion[2] + 1);
     }
     exportVersionToEnv(nextVersion);
   } catch (error) {
