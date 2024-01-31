@@ -17,5 +17,5 @@ inputs:
     description: 'Patch version (if override needed)'
     required: false
 runs:
-  using: 'node16'
+  using: 'node20'
   main: 'index.js'
